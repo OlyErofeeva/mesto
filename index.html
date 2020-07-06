@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="pages/index.css">
+</head>
+<body class="page">
+  <div class="page__container">
+    <header class="header page__header">
+      <img class="header__logo" src="images/logo_color_white.svg" alt="Логотип Mesto">
+    </header>
+
+    <main>
+
+      <section class="profile page__profile">
+        <div class="profile__container">
+          <img class="profile__avatar" src="images/user-avatar.jpg" alt="Аватар пользователя">
+          <div class="profile__flex-column">
+            <div class="profile__flex-row">
+              <h1 class="profile__full-name">Жак-Ив Кусто</h1>
+              <button class="profile__edit-button"></button>
+            </div>
+            <p class="profile__bio">Исследователь океана</p>
+          </div>
+        </div>
+        <button class="add-button"></button>
+      </section>
+
+      <section class="gallery">
+        <ul class="cards-container">
+          <li class="card">
+            <div class="card__photo-container"> 
+            <!-- Обёртка "card__photo-container" нужна для того, чтобы не приходилось вручную кадрировать фотографии для карточек, если они изначально не квадратные. Это очень удобно. Хоть и приходится позиционировать фотографии абсолютно, это не должно сломать вёрстку. -->
+              <img class="card__photo" src="images/photo_kamchatka.JPG" alt="Вулканы Камчатки в тумане от горячих источников">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Камчатка</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+
+          <li class="card">
+            <div class="card__photo-container">
+              <img class="card__photo" src="images/photo_altai.JPG" alt="Лес и горы Алтая">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Алтай</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+
+          <li class="card">
+            <div class="card__photo-container">
+              <img class="card__photo" src="images/photo_karelia.JPG" alt="Река с порогами в Карелии">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Карелия</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+
+          <li class="card">
+            <div class="card__photo-container">
+              <img class="card__photo" src="images/photo_komi.JPG" alt="Замерзшая река и лес в снегу">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Республика Коми</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+
+          <li class="card">
+            <div class="card__photo-container">
+              <img class="card__photo" src="images/photo_elbrus.JPG" alt="Гора Эльбрус">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Эльбрус</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+          
+          <li class="card">
+            <div class="card__photo-container">
+              <img class="card__photo" src="images/photo_lake-baikal.jpg" alt="Замерзшее озеро Байкал">
+            </div>            
+            <div class="card__info">
+              <h2 class="card__caption">Байкал</h2>
+              <button class="card__like-button"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer class="footer page__footer">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+  </div>
+
+  <div class="modal-window">
+    <form class="form" action="#">
+      <h2 class="form__title">Редактировать профиль</h2>
+      <input class="form__input" type="text" name="newProfileFullName" placeholder="Полное имя" required>
+      <input class="form__input" type="text" name="newProfileBio" placeholder="О себе">
+      <button class="form__submit-button" type="submit">Сохранить</button>
+      <button class="form__close-button"></button>
+    </form>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
