@@ -1,14 +1,20 @@
 .form__input {
   width: 100%;
+  box-sizing: border-box;
   padding: 14px 0;
   margin-bottom: 16px;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid rgba(0, 0, 0, .2);  
   font-family: inherit;
   font-size: 14px;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .form__input:focus {
   outline: none;
+  box-shadow: 0 0 5px #545454;
+  padding: 14px 4px;
 }

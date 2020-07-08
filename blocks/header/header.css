@@ -1,5 +1,2 @@
 @import url(__logo/header__logo.css);
-
-.header {
-  border-bottom: 1px solid #545454;
-}
+@import url(__underline/header__underline.css);

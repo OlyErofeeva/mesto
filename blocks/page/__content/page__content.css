@@ -1,11 +1,9 @@
-.page__footer {
-  margin-top: 66px;
+.page__content {
   padding: 0 30px;
 }
 
 @media screen and (max-width: 769px) {
-  .page__footer {
-    margin-top: 48px;
+  .page__content {
     padding: 0 19px;
   }
 }

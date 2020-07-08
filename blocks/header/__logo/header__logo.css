@@ -9,3 +9,10 @@
     padding: 0 27px 40px;
   }
 }
+
+@media screen and (max-width: 550px) {
+  .header__logo {
+    width: 104px;
+    padding: 0 27px 32px;
+  }
+}

@@ -4,27 +4,30 @@ const profileName = document.querySelector('.profile__full-name');
 const profileBio = document.querySelector('.profile__bio');
 const editProfileForm = document.querySelector('.form');
 const closeModalButton = editProfileForm.querySelector('.form__close-button');
-const submitProfile = editProfileForm.querySelector('.form__submit-button');
+const submitProfileButton = editProfileForm.querySelector('.form__submit-button');
 
 function toggleModal() {
   modal.classList.toggle('modal-window_opened');
 }
 
-openModalButton.addEventListener('click', () => {
+function openModal() {
   toggleModal();
   editProfileForm.newProfileFullName.value = profileName.textContent;
   editProfileForm.newProfileBio.value = profileBio.textContent;
-});
+}
 
-closeModalButton.addEventListener('click', (event) => {
+function closeModal(event) {
   event.preventDefault(); // убираем перезагрузку страницы при закрытии формы
   toggleModal();
-});
+}
 
-submitProfile.addEventListener('click', (event) => {
+function submitProfile(event) {
   profileName.textContent = editProfileForm.newProfileFullName.value;
   profileBio.textContent = editProfileForm.newProfileBio.value;
-
   event.preventDefault(); // убираем перезагрузку страницы при сохранении
   toggleModal();
-});
+}
+
+openModalButton.addEventListener('click', openModal);
+closeModalButton.addEventListener('click', closeModal);
+submitProfileButton.addEventListener('click', submitProfile);
