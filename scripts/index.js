@@ -17,7 +17,6 @@ function openModal() {
 }
 
 function closeModal(event) {
-  event.preventDefault(); // убираем перезагрузку страницы при закрытии формы
   toggleModal();
 }
 
