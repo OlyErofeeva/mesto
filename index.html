@@ -10,7 +10,6 @@
   <div class="page__container">
     <header class="header page__header">
       <img class="header__logo" src="images/logo_color_white.svg" alt="Логотип Mesto">
-      <div class="header__underline"></div>
     </header>
 
     <main class="content page__content">
@@ -31,70 +30,7 @@
 
       <section class="gallery">
         <ul class="cards-container">
-          <li class="card">
-            <div class="card__photo-container"> 
-            <!-- Обёртка "card__photo-container" нужна для того, чтобы:
-              1. не приходилось вручную кадрировать фотографии для карточек, если они изначально не квадратные. Это очень удобно. 
-              2. не задавать фиксированную высоту картинкам, а рассчитывать ее через padding-bottom, что делает картинки "резиновыми". Хоть и приходится позиционировать фотографии абсолютно, это не ломает вёрстку.
-            Этот подход согласован с куратором. -->
-              <img class="card__photo" src="images/photo_kamchatka.jpg" alt="Вулканы Камчатки в тумане от горячих источников">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Камчатка</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <div class="card__photo-container">
-              <img class="card__photo" src="images/photo_altai.jpg" alt="Лес и горы Алтая">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Алтай</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <div class="card__photo-container">
-              <img class="card__photo" src="images/photo_karelia.jpg" alt="Река с порогами в Карелии">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Карелия</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <div class="card__photo-container">
-              <img class="card__photo" src="images/photo_komi.jpg" alt="Замерзшая река и лес в снегу">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Республика Коми</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <div class="card__photo-container">
-              <img class="card__photo" src="images/photo_elbrus.jpg" alt="Гора Эльбрус">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Эльбрус</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-          
-          <li class="card">
-            <div class="card__photo-container">
-              <img class="card__photo" src="images/photo_lake-baikal.jpg" alt="Замерзшее озеро Байкал">
-            </div>            
-            <div class="card__info">
-              <h2 class="card__caption">Байкал</h2>
-              <button class="card__like-button" type="button"></button>
-            </div>
-          </li>
-        </ul> 
+        </ul>
       </section>
 
     </main>
@@ -104,15 +40,52 @@
     </footer>
   </div>
 
-  <div class="modal-window">
-    <form class="form" action="#" method="POST">
-      <h2 class="form__title">Редактировать профиль</h2>
-      <input class="form__input" type="text" name="newProfileFullName" placeholder="Полное имя" required>
-      <input class="form__input" type="text" name="newProfileBio" placeholder="О себе">
-      <button class="form__submit-button" type="submit">Сохранить</button>
-      <button class="form__close-button" type="button"></button>
-    </form>
+  <div class="modal modal_for_profile">
+    <div class="modal__content">
+      <form class="form" action="#" method="POST">
+        <h2 class="form__title">Редактировать профиль</h2>
+        <input class="form__input" type="text" name="newProfileFullName" placeholder="Полное имя" required>
+        <input class="form__input" type="text" name="newProfileBio" placeholder="О себе">
+        <button class="form__submit-button" type="submit">Сохранить</button>
+      </form>
+      <button class="modal__close-button" type="button"></button>
+    </div>
   </div>
+
+  <div class="modal modal_for_new-place">
+    <div class="modal__content">
+      <form class="form" action="#" method="POST">
+        <h2 class="form__title">Новое место</h2>
+        <input class="form__input" type="text" name="newPlaceCaption" placeholder="Название">
+        <input class="form__input" type="text" name="newPlaceLink" placeholder="Ссылка на картинку">
+        <button class="form__submit-button" type="submit">Сохранить</button>
+      </form>
+      <button class="modal__close-button" type="button"></button>
+    </div>    
+  </div>
+
+  <div class="modal modal_for_photo">
+    <div class="modal__content">
+      <figure class="modal__full-photo-view">
+        <img class="modal__full-photo" src="#" alt="">
+        <figcaption class="modal__full-photo-caption"></figcaption>
+      </figure>
+      <button class="modal__close-button" type="button"></button>
+    </div>  
+  </div>
+
+  <template class="card-template">
+    <li class="card">
+      <div class="card__photo-container">
+        <img class="card__photo">
+      </div>            
+      <div class="card__info">
+        <h2 class="card__caption"></h2>
+        <button class="card__like-button" type="button"></button>
+      </div>
+      <button class="card__delete-button" type="button"></button>
+    </li>
+  </template>
 
   <script src="scripts/index.js"></script>
 </body>

@@ -8,11 +8,11 @@
   background-repeat: no-repeat;
   background-color: transparent;
   background-position: 50%;
-  transition: transform .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
 }
 
 .card__like-button:hover {
-  transform: scale(1.15);
+  opacity: .6;
 }
 
 .card__like-button:focus {

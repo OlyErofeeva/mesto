@@ -1,0 +1,10 @@
+.modal__content {
+  position: relative;
+  max-width: calc(100% - 2*40px);
+}
+
+@media screen and (max-width: 550px) {
+  .modal__content {
+    max-width: calc(100% - 2*40px);
+  }
+}

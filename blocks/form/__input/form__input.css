@@ -1,7 +1,7 @@
 .form__input {
   width: 100%;
   box-sizing: border-box;
-  padding: 14px 0;
+  padding: 12px 0;
   margin-bottom: 16px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);  
@@ -16,5 +16,11 @@
 .form__input:focus {
   outline: none;
   box-shadow: 0 0 5px #545454;
-  padding: 14px 4px;
+  padding: 12px 4px;
+}
+
+@media screen and (max-width: 550px) {
+  .form__input {
+    font-size: 12px;
+  }
 }
