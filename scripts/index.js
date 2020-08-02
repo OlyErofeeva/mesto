@@ -19,6 +19,8 @@ const closePhotoModalButton = photoModal.querySelector('.modal__close-button');
 const cardTemplate = document.querySelector('.card-template').content;
 const cardsList = document.querySelector('.cards-container');
 
+const modalList = Array.from(document.querySelectorAll('.modal'));
+
 const initialCards = [
   {
     name: 'Байкал',
@@ -54,35 +56,60 @@ const initialCards = [
 
 function toggleModal(modal) {
   modal.classList.toggle('modal_opened');
+  if (modal.classList.contains('modal_opened')) {
+    document.addEventListener('keydown', closeOnEsc);
+  } else {
+    document.removeEventListener('keydown', closeOnEsc);
+  }
 }
+
+function closeOnEsc() {
+  if (event.key === 'Escape') {
+    const modal = document.querySelector('.modal_opened');
+    if (modal) {
+      toggleModal(modal);
+    }
+  }
+}
+
+function closeOnOverlayClick(event, modal) {
+  if (event.target.classList.contains('modal')) {
+    toggleModal(modal);
+  }
+} 
 
 function openProfileModal() {
   toggleModal(profileModal);
   editProfileForm.newProfileFullName.value = profileName.textContent;
   editProfileForm.newProfileBio.value = profileBio.textContent;
+  initialFormStateCheck(editProfileForm); //function from "validate.js"
 }
 
-function submitProfile(event, modal) {
+function submitProfile() {
   profileName.textContent = editProfileForm.newProfileFullName.value;
   profileBio.textContent = editProfileForm.newProfileBio.value;
-  event.preventDefault(); // убираем перезагрузку страницы при сохранении
-  toggleModal(modal);
+  toggleModal(profileModal);
 }
 
 function addCard(name, link, alt) {
-  card = cardTemplate.cloneNode(true);
+  const card = cardTemplate.cloneNode(true);
   card.querySelector('.card__caption').textContent = name;
   card.querySelector('.card__photo').src = link;
   card.querySelector('.card__photo').alt = alt;
   cardsList.prepend(card);
 }
 
-function submitNewPlace(event, modal) {
+function openNewPlaceModal() {
+  addNewPlaceForm.reset();
+  toggleModal(newPlaceModal);
+  initialFormStateCheck(addNewPlaceForm); //function from "validate.js"
+}
+
+function submitNewPlace() {
   addCard(addNewPlaceForm.newPlaceCaption.value, 
           addNewPlaceForm.newPlaceLink.value,
           addNewPlaceForm.newPlaceCaption.value);
-  event.preventDefault();
-  toggleModal(modal);
+  toggleModal(newPlaceModal);
 }
 
 function cardActionHandler(event) {
@@ -103,13 +130,17 @@ initialCards.forEach(function (initialCard) {
   addCard(initialCard.name, initialCard.link, initialCard.alt);
 });
 
+modalList.forEach((modalElement) => {
+  modalElement.addEventListener('mousedown', () => closeOnOverlayClick(event, modalElement));
+});
+
 openProfileModalButton.addEventListener('click', openProfileModal);
 closeProfileModalButton.addEventListener('click', () => toggleModal(profileModal));
-submitProfileButton.addEventListener('click', () => submitProfile(event, profileModal));
+submitProfileButton.addEventListener('click', submitProfile);
 
-openNewPlaceModalButton.addEventListener('click', () => toggleModal(newPlaceModal));
+openNewPlaceModalButton.addEventListener('click', openNewPlaceModal);
 closeNewPlaceModalButton.addEventListener('click', () => toggleModal(newPlaceModal));
-submitNewPlaceButton.addEventListener('click', () => submitNewPlace(event, newPlaceModal));
+submitNewPlaceButton.addEventListener('click', submitNewPlace);
 
 closePhotoModalButton.addEventListener('click', () => toggleModal(photoModal));
 cardsList.addEventListener('click', () => cardActionHandler(event));

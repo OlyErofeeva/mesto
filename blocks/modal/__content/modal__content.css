@@ -1,10 +1,9 @@
 .modal__content {
   position: relative;
+  width: 430px;
   max-width: calc(100% - 2*40px);
 }
 
-@media screen and (max-width: 550px) {
-  .modal__content {
-    max-width: calc(100% - 2*40px);
-  }
+.modal_for_photo .modal__content {
+  width: auto;
 }
