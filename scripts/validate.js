@@ -6,23 +6,23 @@ const validationSetup = {
   inputErrorClass: 'form__input_invalid'
 };
 
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, inputErrorClass) => {
   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-  inputElement.classList.add(validationSetup.inputErrorClass);
+  inputElement.classList.add(inputErrorClass);
   errorElement.textContent = errorMessage;
 };
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, inputErrorClass) => {
   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-  inputElement.classList.remove(validationSetup.inputErrorClass);
+  inputElement.classList.remove(inputErrorClass);
   errorElement.textContent = '';
 };
 
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, inputErrorClass) => {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, inputErrorClass);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, inputErrorClass);
   }
 };
 
@@ -33,34 +33,34 @@ const hasInvalidInput = (inputList) => {
   });
 };
 
-const toggleSubmitButtonState = (inputList, buttonElement) => {
+const toggleSubmitButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(validationSetup.inactiveButtonClass);
+    buttonElement.classList.add(inactiveButtonClass);
     buttonElement.disabled = true;
   } else {
-    buttonElement.classList.remove(validationSetup.inactiveButtonClass);
+    buttonElement.classList.remove(inactiveButtonClass);
     buttonElement.disabled = false;
   }
 };
 
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(validationSetup.formSelector));
+const enableValidation = (setup) => {
+  const formList = Array.from(document.querySelectorAll(setup.formSelector));
   formList.forEach((formElement) => {
     // cancel default actions on 'submit' for each form on the page
     formElement.addEventListener('submit', (event) => {
       event.preventDefault();
     });
     
-    const inputList = Array.from(formElement.querySelectorAll(validationSetup.inputSelector));
-    const buttonElement = formElement.querySelector(validationSetup.submitButtonSelector);
+    const inputList = Array.from(formElement.querySelectorAll(setup.inputSelector));
+    const buttonElement = formElement.querySelector(setup.submitButtonSelector);
 
     // on 'input':
     // - validate every input field;
     // - set the right state for the submit button.
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
-        checkInputValidity(formElement, inputElement);
-        toggleSubmitButtonState(inputList, buttonElement);
+        checkInputValidity(formElement, inputElement, setup.inputErrorClass);
+        toggleSubmitButtonState(inputList, buttonElement, setup.inactiveButtonClass);
       });
     });
   });
@@ -69,14 +69,14 @@ const enableValidation = () => {
 // called from "index.js" when a form is opened to:
 // - hide error messages from the previous form edition; 
 // - set the right state for the submit button.
-const initialFormStateCheck = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationSetup.inputSelector));
-  const buttonElement = formElement.querySelector(validationSetup.submitButtonSelector);
+const initialFormStateCheck = (formElement, setup = validationSetup) => {
+  const inputList = Array.from(formElement.querySelectorAll(setup.inputSelector));
+  const buttonElement = formElement.querySelector(setup.submitButtonSelector);
 
   inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, setup.inputErrorClass);
   });
-  toggleSubmitButtonState(inputList, buttonElement);
+  toggleSubmitButtonState(inputList, buttonElement, setup.inactiveButtonClass);
 }
 
-enableValidation();
+enableValidation(validationSetup);

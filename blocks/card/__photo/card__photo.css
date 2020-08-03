@@ -6,3 +6,7 @@
   height: 100%;
   object-fit: cover;
 }
+
+.card__photo:hover {
+  cursor: pointer;
+}
