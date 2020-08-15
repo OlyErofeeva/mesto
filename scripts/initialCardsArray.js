@@ -30,3 +30,5 @@ const initialCards = [
     alt: 'Вулканы Камчатки в тумане от горячих источников'
   }
 ];
+
+export default initialCards;

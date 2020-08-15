@@ -9,6 +9,7 @@ https://olyerofeeva.github.io/mesto/
 * grid layout
 * flexbox
 * БЭМ
+* ООП (частично)
 
 ### Планы по доработке проекта:
 

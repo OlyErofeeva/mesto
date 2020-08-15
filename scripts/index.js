@@ -1,3 +1,10 @@
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+import { photoModal, toggleModal, closeOnEsc } from './utils.js';
+import initialCards from './initialCardsArray.js';
+
+/* --------------- global constants --------------- */
+
 const profileName = document.querySelector('.profile__full-name');
 const profileBio = document.querySelector('.profile__bio');
 const openProfileModalButton = document.querySelector('.profile__edit-button');
@@ -11,32 +18,25 @@ const newPlaceModal = document.querySelector('.modal_for_new-place');
 const closeNewPlaceModalButton = newPlaceModal.querySelector('.modal__close-button');
 const addNewPlaceForm = newPlaceModal.querySelector('.form');
 
-const photoModal = document.querySelector('.modal_for_photo');
 const closePhotoModalButton = photoModal.querySelector('.modal__close-button');
 
-const cardTemplate = document.querySelector('.card-template').content;
 const cardsList = document.querySelector('.cards-container');
 
 const modalList = Array.from(document.querySelectorAll('.modal'));
 
+const validationSetup = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__submit-button',
+  inactiveButtonClass: 'form__submit-button_disabled',
+  inputErrorClass: 'form__input_invalid'
+};
 
-function toggleModal(modal) {
-  modal.classList.toggle('modal_opened');
-  if (modal.classList.contains('modal_opened')) {
-    document.addEventListener('keydown', closeOnEsc);
-  } else {
-    document.removeEventListener('keydown', closeOnEsc);
-  }
-}
+const profileFormValidator = new FormValidator(validationSetup, editProfileForm);
+const newPlaceFormValidator = new FormValidator(validationSetup, addNewPlaceForm);
 
-function closeOnEsc() {
-  if (event.key === 'Escape') {
-    const modal = document.querySelector('.modal_opened');
-    if (modal) {
-      toggleModal(modal);
-    }
-  }
-}
+
+/* ------------------ functions ------------------ */
 
 function closeOnOverlayClick(event, modal) {
   if (event.target.classList.contains('modal')) {
@@ -48,66 +48,41 @@ function openProfileModal() {
   toggleModal(profileModal);
   editProfileForm.newProfileFullName.value = profileName.textContent;
   editProfileForm.newProfileBio.value = profileBio.textContent;
-  initialFormStateCheck(editProfileForm); //function from "validate.js"
+  profileFormValidator.initialFormStateCheck();
 }
 
 function submitProfile() {
+  event.preventDefault();
   profileName.textContent = editProfileForm.newProfileFullName.value;
   profileBio.textContent = editProfileForm.newProfileBio.value;
   toggleModal(profileModal);
 }
 
-function addCard(name, link, alt) {
-  const card = cardTemplate.cloneNode(true);
-  const cardImage = card.querySelector('.card__photo');
-
-  card.querySelector('.card__caption').textContent = name;
-  cardImage.src = link;
-  cardImage.alt = alt;
-  cardsList.prepend(card);
-}
-
 function openNewPlaceModal() {
   addNewPlaceForm.reset();
   toggleModal(newPlaceModal);
-  initialFormStateCheck(addNewPlaceForm); //function from "validate.js"
+  newPlaceFormValidator.initialFormStateCheck();
 }
 
 function submitNewPlace() {
-  addCard(addNewPlaceForm.newPlaceCaption.value, 
-          addNewPlaceForm.newPlaceLink.value,
-          addNewPlaceForm.newPlaceCaption.value);
+  event.preventDefault();
+  const card = new Card(
+    addNewPlaceForm.newPlaceCaption.value,
+    addNewPlaceForm.newPlaceLink.value,
+    addNewPlaceForm.newPlaceCaption.value,
+    '.card-template');
+
+  cardsList.prepend(card.generateCard());
   toggleModal(newPlaceModal);
 }
 
-function cardOpenFullPhoto(event) {
-  const currentCard = event.target.closest('.card');
-  const currentCardCaption = currentCard.querySelector('.card__caption');
-  photoModal.querySelector('.modal__full-photo').src = event.target.src;
-  photoModal.querySelector('.modal__full-photo-caption').textContent = currentCardCaption.textContent;
-  toggleModal(photoModal);
-}
 
-function cardToggleLike(event) {
-  event.target.classList.toggle('card__like-button_active');
-}
+/* ------------------ logic ------------------ */
 
-function cardDelete(event) {
-  event.target.closest('.card').remove();
-}
-
-function cardActionHandler(event) {
-  if (event.target.classList.contains('card__photo')) {
-    cardOpenFullPhoto(event);
-  } else if (event.target.classList.contains('card__like-button')) {
-    cardToggleLike(event);
-  } else if (event.target.classList.contains('card__delete-button')) {
-    cardDelete(event);
-  }
-}
-
-initialCards.forEach(function (initialCard) {
-  addCard(initialCard.name, initialCard.link, initialCard.alt);
+initialCards.forEach((item) => {
+  const card = new Card(item.name, item.link, item.alt, '.card-template');
+  const cardElement = card.generateCard();
+  cardsList.prepend(cardElement);
 });
 
 modalList.forEach((modalElement) => {
@@ -123,4 +98,6 @@ closeNewPlaceModalButton.addEventListener('click', () => toggleModal(newPlaceMod
 addNewPlaceForm.addEventListener('submit', submitNewPlace);
 
 closePhotoModalButton.addEventListener('click', () => toggleModal(photoModal));
-cardsList.addEventListener('click', () => cardActionHandler(event));
+
+profileFormValidator.enableValidation();
+newPlaceFormValidator.enableValidation();
