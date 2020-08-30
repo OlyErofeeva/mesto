@@ -1,11 +1,10 @@
-import { photoModal, toggleModal, closeOnEsc } from './utils.js';
-
 export default class Card {
-  constructor(name, link, alt, cardSelector) {
+  constructor({ name, link, alt }, cardSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._alt = alt;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -33,7 +32,7 @@ export default class Card {
 
   _setEventListeners() {
     this._card.querySelector('.card__photo').addEventListener('click', () => {
-      this._handlePhotoClick();
+      this._handleCardClick(this._link, this._name);
     });
 
     this._card.querySelector('.card__like-button').addEventListener('click', () => {
@@ -54,11 +53,5 @@ export default class Card {
 
   _handleDeleteClick() {
     this._card.remove();
-  }
-
-  _handlePhotoClick() {
-    photoModal.querySelector('.modal__full-photo').src = this._link;
-    photoModal.querySelector('.modal__full-photo-caption').textContent = this._name;
-    toggleModal(photoModal);
   }
 }
