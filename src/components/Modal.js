@@ -18,7 +18,6 @@ export default class Modal {
     if (event.key === 'Escape') {
       this.close();
     }
-
   }
 
   setEventListeners() {

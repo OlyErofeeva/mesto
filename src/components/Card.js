@@ -53,5 +53,6 @@ export default class Card {
 
   _handleDeleteClick() {
     this._card.remove();
+    this._card = null;
   }
 }
