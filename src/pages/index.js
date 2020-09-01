@@ -28,8 +28,13 @@ const validationSetup = {
 
 /* ------------------ functions ------------------ */
 
-const handleCardClick = (link, name) => {
-  photoModal.open(link, name);
+const handleCardClick = (link, name, alt) => {
+  photoModal.open(link, name, alt);
+};
+
+const addCard = (cardData) => {
+  const card = new Card(cardData, '.card-template', handleCardClick);
+  cardsList.addItem(card.generateCard());
 };
 
 
@@ -50,6 +55,7 @@ const profileModal = new ModalWithForm({
   modalSelector: '.modal_for_profile',
   handleFormSubmit: data => {
     userInfo.setUserInfo(data);
+    profileModal.close();
   },
   setFormInputs: formElement => {
     formElement.newProfileFullName.value = userInfo.getUserInfo().name;
@@ -60,25 +66,19 @@ const profileModal = new ModalWithForm({
 const newPlaceModal = new ModalWithForm({
   modalSelector: '.modal_for_new-place',
   handleFormSubmit: (data) => {
-    const card = new Card({
+    addCard({
       name: data.newPlaceCaption,
       link: data.newPlaceLink,
       alt: data.newPlaceCaption
-      },
-      '.card-template',
-      handleCardClick);
-  
-    cardsList.addItem(card.generateCard());
+    });
+    newPlaceModal.close();
   }
+  
 });
 
 const cardsList = new Section({
   items: initialCards,
-  renderer: item => {
-    const card = new Card(item, '.card-template', handleCardClick);
-    const cardElement = card.generateCard();
-    cardsList.addItem(cardElement);
-  }
+  renderer: item => addCard(item)
 }, '.cards-container');
 
 

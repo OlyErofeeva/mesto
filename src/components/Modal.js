@@ -1,7 +1,7 @@
 export default class Modal {
   constructor(modalSelector) {
     this._modal = document.querySelector(modalSelector);
-    this._escEventListener = () => this._handleEscClose();
+    this._escEventListener = this._handleEscClose.bind(this);
   }
 
   open() {
@@ -23,7 +23,7 @@ export default class Modal {
   setEventListeners() {
     this._modal
     .querySelector('.modal__close-button')
-    .addEventListener('click', () => this.close());
+    .addEventListener('click', this.close.bind(this));
 
     this._modal.addEventListener('mousedown', () => {
       if (event.target.classList.contains('modal')) {
