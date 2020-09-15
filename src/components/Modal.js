@@ -25,7 +25,7 @@ export default class Modal {
     .querySelector('.modal__close-button')
     .addEventListener('click', this.close.bind(this));
 
-    this._modal.addEventListener('mousedown', () => {
+    this._modal.addEventListener('mousedown', (event) => {
       if (event.target.classList.contains('modal')) {
         this.close();
       }

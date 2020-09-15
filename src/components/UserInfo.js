@@ -1,15 +1,25 @@
 export default class UserInfo {
-  constructor({ fullNameSelector, bioSelector }) {
+  constructor({ fullNameSelector, bioSelector, avatarSelector }) {
     this._fullName = document.querySelector(fullNameSelector);
     this._bio = document.querySelector(bioSelector);
+    this._avatarElement = document.querySelector(avatarSelector);
   }
   
   getUserInfo() {
-    return { name: this._fullName.textContent, bio: this._bio.textContent };
+    return { 
+      name: this._fullName.textContent, 
+      bio: this._bio.textContent, 
+      id: this._id
+    };
   }
 
-  setUserInfo({ newProfileFullName, newProfileBio }) {
-    this._fullName.textContent = newProfileFullName;
-    this._bio.textContent = newProfileBio;
+  setUserInfo({ name, about, _id }) {
+    this._fullName.textContent = name;
+    this._bio.textContent = about;
+    this._id = _id;
+  }
+
+  setAvatar(link) {
+    this._avatarElement.src = link;
   }
 }

@@ -6,6 +6,8 @@ export default class ModalWithForm extends Modal {
     this._handleFormSubmit = handleFormSubmit;
     this._setFormInputs = setFormInputs;
     this._form = this._modal.querySelector('.form');
+    this._submitButton = this._form.querySelector('.form__submit-button');
+    this._submitButtonInitialText = this._submitButton.textContent;
   }
 
   _getInputValues() {
@@ -19,7 +21,7 @@ export default class ModalWithForm extends Modal {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', () => {
+    this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this._handleFormSubmit(this._getInputValues());
     });
@@ -35,5 +37,13 @@ export default class ModalWithForm extends Modal {
   close() {
     super.close();
     this._form.reset();
+  }
+
+  renderLoadingOnSubmit(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = 'Сохранение...';
+    } else {
+      this._submitButton.textContent = this._submitButtonInitialText;
+    }
   }
 }
