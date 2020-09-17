@@ -11,10 +11,12 @@ export default class FormValidator {
     this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
+  /**
+   * On 'input':
+   * - validate every input field;
+   * - set the right state for the submit button.
+   */
   enableValidation() {
-    // on 'input':
-    // - validate every input field;
-    // - set the right state for the submit button.
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
@@ -55,16 +57,20 @@ export default class FormValidator {
     }
   }
 
-  // will return 'true' if at least one of the form inputs is invalid
+  /**
+   * Will return 'true' if at least one of the form inputs is invalid
+   */
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
-  // called when a form is opened to:
-  // - hide error messages from the previous form edition; 
-  // - set the right state for the submit button.
+  /**
+   * Called when a form is opened to:
+   * - hide error messages from the previous form edition;
+   * - set the right state for the submit button.
+   */
   initialFormStateCheck() {
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);

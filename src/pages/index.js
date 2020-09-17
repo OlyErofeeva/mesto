@@ -1,13 +1,13 @@
 import './index.css';
 
-import Api from '../components/Api';
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import ModalWithForm from '../components/ModalWithForm.js';
 import ModalWithImage from '../components/ModalWithImage.js';
-import ModalWithConfirm from '../components/ModalWithConfirm';
+import ModalWithConfirm from '../components/ModalWithConfirm.js';
 
 /* --------------- global constants --------------- */
 
@@ -33,7 +33,11 @@ const validationSetup = {
 
 /* ------------------ functions ------------------ */
 
-/* 1. shows spinner while waiting for data (user info & cards) from the server */
+/**
+ * Shows spinner while waiting for data (user info & cards) from the server
+ * @param {boolean} isLoading - Loading indicator: true to show the spinner, false to hide
+ */
+
 const mainLoader = (isLoading) => {
   if (isLoading) {
     loaderElement.classList.add('loader_active');
@@ -43,7 +47,11 @@ const mainLoader = (isLoading) => {
   }
 }
 
-/* 2. adds a card (with all the handlers for it's eventListeners) to the list */
+/**
+ * Adds a card (with all the handlers for it's eventListeners) to the list
+ * @param {object} cardData - Object with all the data needed to create a new card. Minimal structure is { name, link }
+ */
+
 const addCard = (cardData) => {
   const currentUserId = userInfo.getUserInfo().id;
 
@@ -78,14 +86,19 @@ const addCard = (cardData) => {
 
     handleLikeClick: (cardId, isLiked) => {
       if (isLiked) {
-        card.toggleLike();
         api
         .dislikeCard(cardId)
+        .then(() => {
+          // The number of likes from the response is not used here: it can be confusing for the user to see that the number of likes has decreased after their like (as a result of other users' actions).
+          card.toggleLike();
+        })
         .catch(err => alert(err));
       } else {
-        card.toggleLike();
         api
         .likeCard(cardId)
+        .then(() => {
+          card.toggleLike();
+        })
         .catch(err => alert(err));
       }
     }
@@ -97,8 +110,14 @@ const addCard = (cardData) => {
 
 /* ---------------- class instances ---------------- */
 
+/**
+ * Container for cards
+ */
 const cardList = new Section(".cards-container");
 
+/**
+ * API instance
+ */
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-15',
   headers: {
@@ -107,6 +126,9 @@ const api = new Api({
   }
 });
 
+/**
+ * User info: full name, bio (about), avatar
+ */
 const userInfo = new UserInfo({
   fullNameSelector: '.profile__full-name',
   bioSelector: '.profile__bio',
@@ -114,10 +136,19 @@ const userInfo = new UserInfo({
   }
 );
 
+/**
+ * Modal window for full-size photo view
+ */
 const photoModal = new ModalWithImage('.modal_for_photo');
+
+/**
+ * Modal window for confirmation dialog
+ */
 const deleteCardConfirmModal = new ModalWithConfirm('.modal_for_confirm');
 
-// edit profile info
+/**
+ * Modal window for editing profile full name & bio
+ */
 const profileModal = new ModalWithForm({
   modalSelector: '.modal_for_profile',
   handleFormSubmit: data => {
@@ -139,7 +170,9 @@ const profileModal = new ModalWithForm({
   }
 });
 
-// create a new card
+/**
+ * Modal window for creating a new card
+ */
 const newPlaceModal = new ModalWithForm({
   modalSelector: '.modal_for_new-place',
   handleFormSubmit: data => {
@@ -157,7 +190,9 @@ const newPlaceModal = new ModalWithForm({
   }
 });
 
-// change avatar
+/**
+ * Modal window for setting a new avatar
+ */
 const avatarModal = new ModalWithForm({
   modalSelector: '.modal_for_avatar',
   handleFormSubmit: data => {
@@ -175,15 +210,21 @@ const avatarModal = new ModalWithForm({
   }
 });
 
+/**
+ * Validation instances for each form with inputs on the page
+ */
 const profileFormValidator = new FormValidator(validationSetup, editProfileForm);
 const newPlaceFormValidator = new FormValidator(validationSetup, addNewPlaceForm);
 const avatarFormValidator = new FormValidator(validationSetup, changeAvatarForm);
 
 
 /* -------------------- logic -------------------- */
+
 mainLoader(true);
 
-// getting information about the user & all the cards
+/**
+ * Getting information about the user & all the cards from the server (initial load)
+ */
 Promise.all(
   [
     api.getUserInfo(),
