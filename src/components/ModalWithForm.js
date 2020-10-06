@@ -1,4 +1,5 @@
 import Modal from './Modal.js';
+import { renderLoadingText } from '../utils/utils.js';
 
 export default class ModalWithForm extends Modal {
   constructor({ modalSelector, handleFormSubmit, setFormInputs }) {
@@ -40,10 +41,10 @@ export default class ModalWithForm extends Modal {
   }
 
   renderLoadingOnSubmit(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = 'Сохранение...';
-    } else {
-      this._submitButton.textContent = this._submitButtonInitialText;
-    }
+    this._submitButton.textContent = renderLoadingText(
+      isLoading, 
+      'Сохранение...', 
+      this._submitButtonInitialText
+    );
   }
 }

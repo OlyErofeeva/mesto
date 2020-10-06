@@ -1,4 +1,5 @@
 import Modal from './Modal.js';
+import { renderLoadingText } from '../utils/utils.js';
 
 export default class ModalWithConfirm extends Modal {
   constructor(modalSelector) {
@@ -21,10 +22,10 @@ export default class ModalWithConfirm extends Modal {
   }
 
   renderLoadingOnSubmit(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = 'Удаление...';
-    } else {
-      this._submitButton.textContent = this._submitButtonInitialText;
-    }
+    this._submitButton.textContent = renderLoadingText(
+      isLoading, 
+      'Удаление...', 
+      this._submitButtonInitialText
+    );
   }
 }
